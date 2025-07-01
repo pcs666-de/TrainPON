@@ -1,0 +1,11 @@
+a-Dekl. Nom.Sg. = a
+a-Dekl. Gen.Sg. = ae
+a-Dekl. Dat.Sg. = ae
+a-Dekl. Akk.Sg. = am
+a-Dekl. Abl.Sg. = a
+
+a-Dekl. Nom.Pl. = ae
+a-Dekl. Gen.Pl. = arum
+a-Dekl. Dat.Pl. = is
+a-Dekl. Akk.Pl. = as
+a-Dekl. Abl.Pl. = is

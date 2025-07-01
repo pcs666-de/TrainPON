@@ -1,0 +1,11 @@
+kon.-Dekl. Nom.Sg. = nichts
+kon.-Dekl. Gen.Sg. = is
+kon.-Dekl. Dat.Sg. = i
+kon.-Dekl. Akk.Sg. = em
+kon.-Dekl. Abl.Sg. = e
+
+kon.-Dekl. Nom.Pl. = es
+kon.-Dekl. Gen.Pl. = um
+kon.-Dekl. Dat.Pl. = ibus
+kon.-Dekl. Akk.Pl. = es
+kon.-Dekl. Abl.Pl. = ibus

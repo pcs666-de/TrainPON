@@ -1,0 +1,19 @@
+Nominativ Singular von is = is
+Nominativ Singular von ea = ea
+Nominativ Singular von id = id
+
+Genitiv Singular von is = eius
+Genitiv Singular von ea = eius
+Genitiv Singular von id = eius
+
+Dativ Singular von is = ei
+Dativ Singular von ea = ei
+Dativ Singular von id = ei
+
+Akkusativ Singular von is = eum
+Akkusativ Singular von ea = eam
+Akkusativ Singular von id = id
+
+Ablativ Singular von is = eo
+Ablativ Singular von ea = ea
+Ablativ Singular von id = eo

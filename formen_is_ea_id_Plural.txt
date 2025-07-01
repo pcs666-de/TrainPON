@@ -1,0 +1,19 @@
+Nominativ Plural von is = ei
+Nominativ Plural von ea = eae
+Nominativ Plural von id = ea
+
+Genitiv Plural von is = eorum
+Genitiv Plural von ea = earum
+Genitiv Plural von id = eorum
+
+Dativ Plural von is = eis
+Dativ Plural von ea = eis
+Dativ Plural von id = eis
+
+Akkusativ Plural von is = eos
+Akkusativ Plural von ea = eas
+Akkusativ Plural von id = ea
+
+Ablativ Plural von is = eis
+Ablativ Plural von ea = eis
+Ablativ Plural von id = eis

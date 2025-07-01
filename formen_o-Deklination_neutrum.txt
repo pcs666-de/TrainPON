@@ -1,0 +1,11 @@
+o-Dekl. n. Nom.Sg. = um
+o-Dekl. n. Gen.Sg. = i
+o-Dekl. n. Dat.Sg. = o
+o-Dekl. n. Akk.Sg. = um
+o-Dekl. n. Abl.Sg. = o
+
+o-Dekl. n. Nom.Pl. = a
+o-Dekl. n. Gen.Pl. = orum
+o-Dekl. n. Dat.Pl. = is
+o-Dekl. n. Akk.Pl. = a
+o-Dekl. n. Abl.Pl. = is

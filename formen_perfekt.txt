@@ -1,0 +1,9 @@
+1.P.Sg. Perfekt = i
+2.P.Sg. Perfekt = isti
+3.P.Sg. Perfekt = it
+
+1.P.Pl. Perfekt = imus
+2.P.Pl. Perfekt = istis
+3.P.Pl. Perfekt = erunt
+
+Infinitiv Perfekt = isse
