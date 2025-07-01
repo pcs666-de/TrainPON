@@ -8,7 +8,7 @@ title TrainPON - Latein Vokabeltrainer
 color 0A
 mode con: cols=85 lines=40
 
-set "VERSION=1.1"
+set "VERSION=1.2"
 set "REPO=https://raw.githubusercontent.com/pcs666-de/TrainPON/main"
 set "SELF=%~nx0"
 set "STATS=statistiken.json"
@@ -35,51 +35,68 @@ echo [3] Beenden
 choice /c 123 /n /m "Auswahl: "
 if errorlevel 3 exit /b
 if errorlevel 2 call :SHOW_STATS & pause & goto START
-if errorlevel 1 call :TRAINING & goto START
+if errorlevel 1 call :SELECT_TRAINING & goto START
 
-:: === Trainingsmodus ===
-:TRAINING
+:: === Auswahl Vokabel- oder Formentraining ===
+:SELECT_TRAINING
 cls
-echo *** Training ***
+echo === Trainingsart waehlen ===
+echo [1] Vokabeltraining
+echo [2] Formentraining
+choice /c 12 /n /m "Auswahl: "
+if errorlevel 2 call :FORM_TRAINING & goto START
+if errorlevel 1 call :VOCAB_TRAINING & goto START
+exit /b
+
+:: === Vokabeltraining ===
+:VOCAB_TRAINING
+cls
+echo Verfuegbare Lektionen:
+for %%F in (lektion*.txt) do echo   %%F
 echo.
 set /p lek=Welche Lektion? (z.B. lektion1.txt): 
-if not exist !lek! echo [!] Datei nicht gefunden & pause & goto START
+if not exist !lek! echo [!] Datei nicht gefunden & pause & exit /b
 
-:LOOP
-set /a r=%RANDOM% %% 2
-if !r! EQU 0 (
-    for /f "tokens=1,2 delims==" %%A in ('findstr "=" !lek! ^| sort /R') do (
-        set "frage=%%A"
-        set "antwort=%%B"
-        goto :ASK
-    )
-) else (
-    for %%F in (formen*.txt) do (
-        for /f "tokens=1,2 delims==" %%A in ('findstr "=" %%F ^| sort /R') do (
-            set "frage=%%A"
-            set "antwort=%%B"
-            goto :ASK
-        )
-    )
+for /f "tokens=1,2 delims==" %%A in ('findstr "=" !lek! ^| sort /R') do (
+    set "frage=%%A"
+    set "antwort=%%B"
+    call :ASK_QUESTION
 )
+goto START
 
-:ASK
+:: === Formentraining ===
+:FORM_TRAINING
+cls
+echo Verfuegbare Formen-Dateien:
+for %%F in (formen*.txt) do echo   %%F
+echo.
+set /p formfile=Welche Formdatei? (z.B. formen_perfekt.txt): 
+if not exist !formfile! echo [!] Datei nicht gefunden & pause & exit /b
+
+for /f "tokens=1,2 delims==" %%A in ('findstr "=" !formfile! ^| sort /R') do (
+    set "frage=%%A"
+    set "antwort=%%B"
+    call :ASK_QUESTION
+)
+goto START
+
+:ASK_QUESTION
 cls
 echo Was heisst: !frage!
 echo.
 set /p input=Antwort: 
 if /i "!input!" == "!antwort!" (
-    echo ✅ Richtig!
+    echo [OK] Richtig!
     call :SOUND richtig.wav
     call :UPDATE_STATS richtig
 ) else (
-    echo ❌ Falsch. Richtig waere: !antwort!
+    echo [X] Falsch. Richtig waere: !antwort!
     call :SOUND falsch.wav
     call :UPDATE_STATS falsch
 )
 call :UPDATE_STREAK
 pause
-goto LOOP
+exit /b
 
 :: === Streak laden ===
 :LOAD_STREAK
@@ -92,25 +109,22 @@ for /f "tokens=1,2 delims=," %%A in (%STREAK%) do (
 )
 set "TODAY=%DATE%"
 if "%TODAY%"=="%LASTDATE%" (
-    echo 🔥 Streak: %COUNT% Tage
+    echo [*] Streak: %COUNT% Tage
 ) else (
     set /a COUNT+=1
     echo %DATE%,!COUNT! > %STREAK%
-    echo 🔥 Neuer Tag! Streak: !COUNT! Tage
+    echo [*] Neuer Tag! Streak: !COUNT! Tage
 )
 exit /b
 
-:: === Streak aktualisieren ===
 :UPDATE_STREAK
 >nul
 exit /b
 
-:: === Sound abspielen ===
 :SOUND
-powershell -c "(New-Object Media.SoundPlayer '%~1').PlaySync();"
+powershell -c "(New-Object Media.SoundPlayer '%~1').PlaySync();" >nul 2>&1
 exit /b
 
-:: === Statistik aktualisieren ===
 :UPDATE_STATS
 setlocal EnableDelayedExpansion
 set "typ=%1"
@@ -119,15 +133,17 @@ if not exist %STATS% echo {"richtig":0,"falsch":0} > %STATS%
 set /a richtig=0
 set /a falsch=0
 for %%C in (richtig falsch) do (
+    set /a %%C=0
+)
+for %%C in (richtig falsch) do (
     for /f "tokens=2 delims=:,}" %%V in ("!line:":=!") do (
-        if "%%C"=="%typ%" set /a %%C=%%V+1
+        if "%%C"=="!typ!" set /a %%C=%%V+1
     )
 )
 echo {"richtig":!richtig!,"falsch":!falsch!} > %STATS%
 endlocal
 exit /b
 
-:: === Statistiken anzeigen ===
 :SHOW_STATS
 cls
 echo === Statistiken ===
@@ -139,7 +155,6 @@ if exist %STATS% (
 echo.
 exit /b
 
-:: === Auto-Update-Pruefung ===
 :CHECK_FOR_UPDATE
 curl -s -o latest.bat %REPO%/TrainPON.bat
 fc /B "%~f0" latest.bat >nul
