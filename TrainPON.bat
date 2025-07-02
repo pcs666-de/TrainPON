@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: ==============================================================
-::  TrainPON - Latein Vokabeltrainer v0.2 by PCS (Final Fixes)
+::  TrainPON - Latein Vokabeltrainer v0.2 by PCS (Final Final)
 :: ==============================================================
 title TrainPON - Latein Vokabeltrainer v0.2
 color 0A
@@ -58,7 +58,7 @@ set "CHOICE=%errorlevel%"
 if "%CHOICE%"=="8" exit /b
 if "%CHOICE%"=="7" goto :UNINSTALL
 if "%CHOICE%"=="6" (call :SHOW_STATS & pause & goto MAIN_MENU)
-if "%CHOICE%"=="5" (call :EDIT_FILES & goto MAIN_MENU)
+if "%CHOICE%"=="5" (call :EDIT_FILES & pause & goto MAIN_MENU)
 if "%CHOICE%"=="4" (call :SHOW_LICENSE & pause & goto MAIN_MENU)
 if "%CHOICE%"=="3" (call :SHOW_TUTORIAL & pause & goto MAIN_MENU)
 if "%CHOICE%"=="2" (set "TYPE=formen" & goto START_TRAIN)
@@ -100,7 +100,7 @@ if "%MODE%"=="random" (
     set /a IDX=!random! %% COUNT + 1
 ) else (
     set /a IDX+=1
-    if !IDX! GTR %COUNT% (endlocal & goto MAIN_MENU)
+    if !IDX! GTR !COUNT! (endlocal & goto MAIN_MENU)
 )
 echo Frage: !Q%IDX%!?
 set /p "RESP=Antwort: "
@@ -134,11 +134,11 @@ echo Code: PCS (TrainPON Projekt)
 echo Vokabeln: PONTES 2022, Ernst Klett Verlag
 echo Nutzung ausschliesslich fuer Lernzwecke
 echo.
-echo   ____   ____ ____  
-echo  |  _ \ / ___/ ___| 
-echo  | |_) | |   \___ \ 
-echo  |  __/| |___ ___) |
-echo  |_|    \____|____/ 
+echo    ____   ____ ____  
+echo   |  _ \ / ___/ ___| 
+echo   | |_) | |   \___ \ 
+echo   |  __/| |___ ___) |
+echo   |_|    \____|____/ 
 exit /b
 
 :EDIT_FILES
