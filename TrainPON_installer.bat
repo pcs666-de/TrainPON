@@ -1,72 +1,48 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-:: ==============================================
-::  TrainPON Installer - Erstinstallation & Setup
-:: ==============================================
-title TrainPON Installer
-color 0A
-mode con: cols=85 lines=25
+:: =============================================
+::  TrainPON Setup Wizard v0.1
+:: =============================================
+title TrainPON Setup Wizard v0.1
+color 1F
+mode con: cols=80 lines=25
 
-set "REPO_RAW=https://raw.githubusercontent.com/pcs666-de/TrainPON/main"
-set "FILES=TrainPON.bat lektion0.txt lektion1.txt lektion2.txt lektion3.txt lektion4.txt lektion5.txt lektion6.txt lektion7.txt lektion8.txt lektion9.txt lektion10.txt richtig.wav falsch.wav"
-set "FORMEN=formen_a-Deklination.txt formen_is_ea_id_Plural.txt formen_is_ea_id_Singular.txt formen_konsonantische-Deklination.txt formen_o-Deklination_maskulin.txt formen_o-Deklination_neutrum.txt formen_perfekt.txt"
+set "REPO=https://raw.githubusercontent.com/pcs666-de/TrainPON/main"
+set "FILES=TrainPON.bat richtig.wav falsch.wav statistik.json streak.txt"
+set "VOKS=lektion0.txt lektion1.txt lektion2.txt lektion3.txt lektion4.txt lektion5.txt lektion6.txt lektion7.txt lektion8.txt lektion9.txt lektion10.txt"
+set "FORMS=formen_a-Deklination.txt formen_is_ea_id_Plural.txt formen_is_ea_id_Singular.txt formen_konsonantische-Deklination.txt formen_o-Deklination_maskulin.txt formen_o-Deklination_neutrum.txt formen_perfekt.txt"
 
-:: === Willkommensbildschirm ===
-echo =====================================================
-echo         Willkommen zum TrainPON-Installer
-echo -----------------------------------------------------
-echo  Das Programm wird alle benoetigten Dateien laden.
-echo =====================================================
+cls
+echo  =========================================
+echo      Willkommen zum TrainPON Installer
+echo  =========================================
 echo.
-pause
+echo Dieses Programm wird TrainPON installieren.
+echo.
+echo Lizenzbedingungen:
+echo - Code von PCS
+echo - Vokabeln aus PONTES 2022, Klett Verlag
+echo - Nutzung nur zu Lernzwecken erlaubt.
+echo.
+choice /c JA /n /m "Akzeptieren Sie die Lizenzbedingungen? (J/N): "
+if errorlevel 2 exit /b
 
-:: === Verzeichnis anlegen ===
-echo [*] Erstelle Ordner TrainPON ...
-mkdir TrainPON >nul 2>&1
-cd TrainPON
+echo.
+choice /c JA /n /m "TrainPON installieren? (J/N): "
+if errorlevel 2 exit /b
 
 :: === Dateien herunterladen ===
-echo [*] Lade noetige Dateien herunter ...
-
-for %%F in (%FILES%) do (
-    echo    > Lade %%F ...
-    curl -s -O %REPO_RAW%/%%F
+cls
+echo Lade Dateien herunter...
+for %%F in (%FILES% %VOKS% %FORMS%) do (
+    echo Lade %%F...
+    curl -s -O "%REPO%/%%F"
 )
 
-for %%F in (%FORMEN%) do (
-    echo    > Lade %%F ...
-    curl -s -O %REPO_RAW%/%%F
-)
-
-:: === Pruefen, ob alles da ist ===
 echo.
-echo [*] Pruefe heruntergeladene Dateien ...
-set "missing=0"
-
-for %%F in (%FILES%) do (
-    if not exist %%F echo [FEHLT] %%F & set /a missing+=1
-)
-
-for %%F in (%FORMEN%) do (
-    if not exist %%F echo [FEHLT] %%F & set /a missing+=1
-)
-
-if !missing! NEQ 0 (
-    echo.
-    echo [!] Es fehlen !missing! Dateien. Bitte manuell pruefen.
-    pause
-    exit /b
-)
-
-:: === Abschluss ===
-echo.
-echo [OK] Alle Dateien wurden erfolgreich installiert!
-echo.
-echo Du kannst das Programm nun starten:
-echo.
-echo    TrainPON.bat
-
-pause
+echo Installation abgeschlossen!
+echo Druecken Sie eine Taste, um TrainPON zu starten ...
+pause >nul
 start TrainPON.bat
 exit /b
